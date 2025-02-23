@@ -4,10 +4,10 @@ from unittest import mock
 
 import requests
 
-from grok import Grok
-from grok import errors
-from grok import providers
-from grok import schemas
+from xai_grok.grok import Grok
+from xai_grok import errors
+from xai_grok import providers
+from xai_grok import schemas
 
 import test_utils
 
@@ -313,7 +313,7 @@ class TestGrok(unittest.TestCase):
         expected_response = schemas.TokenizeTextResponse(**mock_response_data)
         v1_tokenize_text_response = test_utils.MockResponse(mock_response_data)
         self.mock_requests.post = mock.Mock(
-            spec_set=[], return_value=v1_tokenize_text_response
+            spec_set=[], side_effect=(v1_tokenize_text_response,), return_value=None
         )
 
         # Act
@@ -340,9 +340,10 @@ class TestGrok(unittest.TestCase):
         # Arrange
         self.mock_requests.post = mock.Mock(
             spec_set=[],
-            return_value=test_utils.MockResponse(
-                {}, http_status_code=http.client.BAD_REQUEST
+            side_effect=(
+                test_utils.MockResponse({}, http_status_code=http.client.BAD_REQUEST),
             ),
+            return_value=None,
         )
 
         # Act / Assert
@@ -355,9 +356,12 @@ class TestGrok(unittest.TestCase):
         # Arrange
         self.mock_requests.post = mock.Mock(
             spec_set=[],
-            return_value=test_utils.MockResponse(
-                {}, http_status_code=http.client.UNPROCESSABLE_ENTITY
+            side_effect=(
+                test_utils.MockResponse(
+                    {}, http_status_code=http.client.UNPROCESSABLE_ENTITY
+                ),
             ),
+            return_value=None,
         )
 
         # Act / Assert
@@ -408,7 +412,7 @@ class TestGrok(unittest.TestCase):
         expected_response = schemas.ChatResponse(**mock_response_data)
         v1_chat_completion_response = test_utils.MockResponse(mock_response_data)
         self.mock_requests.post = mock.Mock(
-            spec_set=[], return_value=v1_chat_completion_response
+            spec_set=[], side_effect=(v1_chat_completion_response,), return_value=None
         )
 
         # Act
@@ -433,9 +437,10 @@ class TestGrok(unittest.TestCase):
         # Arrange
         self.mock_requests.post = mock.Mock(
             spec_set=[],
-            return_value=test_utils.MockResponse(
-                {}, http_status_code=http.client.BAD_REQUEST
+            side_effect=(
+                test_utils.MockResponse({}, http_status_code=http.client.BAD_REQUEST),
             ),
+            return_value=None,
         )
 
         # Act / Assert
@@ -448,9 +453,12 @@ class TestGrok(unittest.TestCase):
         # Arrange
         self.mock_requests.post = mock.Mock(
             spec_set=[],
-            return_value=test_utils.MockResponse(
-                {}, http_status_code=http.client.UNPROCESSABLE_ENTITY
+            side_effect=(
+                test_utils.MockResponse(
+                    {}, http_status_code=http.client.UNPROCESSABLE_ENTITY
+                ),
             ),
+            return_value=None,
         )
 
         # Act / Assert
@@ -482,7 +490,7 @@ class TestGrok(unittest.TestCase):
         v1_complete_response = test_utils.MockResponse(mock_response_data)
 
         self.mock_requests.post = mock.Mock(
-            spec_set=[], return_value=v1_complete_response
+            spec_set=[], side_effect=(v1_complete_response,), return_value=None
         )
 
         # Act
@@ -509,7 +517,10 @@ class TestGrok(unittest.TestCase):
         # Arrange
         self.mock_requests.post = mock.Mock(
             spec_set=[],
-            return_value=test_utils.MockResponse({}, http.client.BAD_REQUEST),
+            side_effect=(
+                test_utils.MockResponse({}, http_status_code=http.client.BAD_REQUEST),
+            ),
+            return_value=None,
         )
 
         # Act / Assert
@@ -524,7 +535,12 @@ class TestGrok(unittest.TestCase):
         # Arrange
         self.mock_requests.post = mock.Mock(
             spec_set=[],
-            return_value=test_utils.MockResponse({}, http.client.UNPROCESSABLE_ENTITY),
+            side_effect=(
+                test_utils.MockResponse(
+                    {}, http_status_code=http.client.UNPROCESSABLE_ENTITY
+                ),
+            ),
+            return_value=None,
         )
 
         # Act / Assert
