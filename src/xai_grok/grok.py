@@ -47,6 +47,7 @@ class Grok:
 
     def complete(self, request: schemas.CompleteRequest) -> schemas.CompleteResponse:
         endpoint = "v1/complete"
+        self.logger.warning("Using legacy endpoint: POST https://api.x.ai/v1/messages")
         response = self._send_request(
             http.HTTPMethod.POST,
             endpoint,
@@ -62,6 +63,10 @@ class Grok:
 
     def completions(self, request: schemas.SampleRequest) -> schemas.SampleResponse:
         endpoint = "v1/completions"
+        self.logger.warning(
+            "Using legacy endpoint: POST https://api.x.ai/v1/completions. "
+            "This endpoint is deprecated, please use POST https://api.x.ai/v1/chat/completions instead."
+        )
         response = self._send_request(
             http.HTTPMethod.POST,
             endpoint,
