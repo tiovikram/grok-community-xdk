@@ -27,4 +27,4 @@ jobs:
         
     - name: Check formatting with Black
       run: |
-        black --check src tests
+        black --check src test
