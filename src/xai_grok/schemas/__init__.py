@@ -29,7 +29,9 @@ from xai_grok.schemas.message_metadata import MessageMetadata
 from xai_grok.schemas.message_request import MessageRequest
 from xai_grok.schemas.message_response import MessageResponse
 from xai_grok.schemas.message_response_text_content import MessageResponseTextContent
-from xai_grok.schemas.message_response_tool_use_content import MessageResponseToolUseContent
+from xai_grok.schemas.message_response_tool_use_content import (
+    MessageResponseToolUseContent,
+)
 from xai_grok.schemas.message_text_content import MessageTextContent
 from xai_grok.schemas.message_tool import MessageTool
 from xai_grok.schemas.message_tool_choice import MessageToolChoice

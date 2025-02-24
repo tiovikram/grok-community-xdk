@@ -3,7 +3,9 @@ import typing
 import pydantic
 
 from xai_grok.schemas.message_response_text_content import MessageResponseTextContent
-from xai_grok.schemas.message_response_tool_use_content import MessageResponseToolUseContent
+from xai_grok.schemas.message_response_tool_use_content import (
+    MessageResponseToolUseContent,
+)
 from xai_grok.schemas.message_usage import MessageUsage
 
 
