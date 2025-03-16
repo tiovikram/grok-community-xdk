@@ -5,10 +5,10 @@ from unittest import mock
 
 import requests
 
-from grok import Grok
-from grok import errors
-from grok import providers
-from grok import schemas
+from xai_grok.grok import Grok
+from xai_grok import errors
+from xai_grok import providers
+from xai_grok import schemas
 
 
 class TestAPIIntegration(unittest.TestCase):
