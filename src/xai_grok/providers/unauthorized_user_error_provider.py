@@ -10,7 +10,11 @@ class UnauthorizedUserErrorProvider:
     _INVALID_API_KEY_PROVIDED_MESSAGE = "Incorrect API key provided"
 
     def provide_error(self, response: dict) -> errors.UnauthorizedUserError:
-        if response.status_code == http.client.BAD_REQUEST:
+        if response.status_code in (
+            http.client.BAD_REQUEST,
+            http.client.UNAUTHORIZED,
+            http.client.FORBIDDEN,
+        ):
             parsed_response_body = response.json()
             error_message = parsed_response_body["error"]
             if (

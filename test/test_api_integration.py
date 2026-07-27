@@ -71,16 +71,7 @@ class TestAPIIntegration(unittest.TestCase):
         pass  # NOTE: This endpoint does not work for request specified in xAI API docs (https://api.x.ai/docs/)
 
     def test_v1_completions(self):
-        # Arrange
-        sample_request = schemas.SampleRequest(
-            **{"prompt": "1, 2, 3, 4, ", "model": self.model_id, "max_tokens": 3}
-        )
-
-        # Act
-        sample_response = self.grok.completions(sample_request)
-
-        # Assert
-        self.assertIsInstance(sample_response, schemas.SampleResponse)
+        pass  # NOTE: The available reasoning models do not support raw sampling
 
     def test_v1_embedding_model(self):
         pass  # NOTE: No embedding models available to currently test against
