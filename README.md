@@ -43,16 +43,11 @@ print(response.choices[0].message.content)
 
 ## Available Endpoints
 
-The client tracks xAI's current Swagger document and now covers every published
-operation, including the Responses API, Anthropic-compatible Messages,
-embeddings, document search, files, skills, image generation, video generation,
-deferred results, and model discovery.
-
 ### API Key Operations
 - `api_key()` - Retrieve information about the current API key
 
 ### Chat and Completion Operations
-- `chat_completion(request: ChatRequest)` - Create chat completions
+- `chat_completions(request: ChatRequest)` - Create chat completions
   - Input: ChatRequest object containing messages and model settings
   - Throws: InvalidRequestError, IncompleteRequestError
 
@@ -60,7 +55,7 @@ deferred results, and model discovery.
   - Input: CompleteRequest object with prompt and settings
   - Throws: InvalidRequestError, IncompleteRequestError
 
-- `completion(request: SampleRequest)` - Alternative completion endpoint
+- `completions(request: SampleRequest)` - Alternative completion endpoint
   - Input: SampleRequest object
   - Throws: InvalidRequestError, IncompleteRequestError
 
@@ -128,15 +123,3 @@ client = Grok(api_key="your-api-key-here")
 All responses are parsed into their corresponding Pydantic models, providing
 type-safe access to response data. If the API response cannot be parsed into
 the expected type, a `FailedToParseResponseError` will be raised.
-
-## Updating the API schemas
-
-The Pydantic schema layer is generated from xAI's published OpenAPI document.
-After installing `datamodel-code-generator`, refresh it with:
-
-```bash
-./scripts/update_openapi_models.sh
-```
-
-The generated model file is committed, so users do not need the generator to
-install or use the package.
