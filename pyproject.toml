@@ -1,6 +1,6 @@
 [project]
 name = "xai-grok"
-version = "0.0.1"
+version = "0.1.0"
 authors = [
   { name="Vikram Subbiah", email="45928972+tiovikram@users.noreply.github.com" },
 ]
@@ -22,7 +22,8 @@ classifiers = [
     "Programming Language :: Python :: 3",
     "Operating System :: OS Independent",
 ]
-license = { file="LICENSE" }
+license = "MIT"
+license-files = ["LICENSE"]
 keywords = [ "xai", "xAI", "XAI", "grok", "Grok", "sdk", "SDK", "xdk", "XDK", "ai", "llm" ]
 
 [project.urls]
