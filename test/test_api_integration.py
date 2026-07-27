@@ -18,6 +18,7 @@ class TestAPIIntegration(unittest.TestCase):
             self.grok = Grok(
                 xai_api_key, requests, providers.UnauthorizedUserErrorProvider()
             )
+            self.model_id = self.grok.language_models().models[0].id
         else:
             raise Error(
                 "Environment variable XAI_API_KEY not set. Failed to instantiate xAI Grok client. Please get an xAI API key from https://console.x.ai"
@@ -56,7 +57,7 @@ class TestAPIIntegration(unittest.TestCase):
                     {"role": "system", "content": "You're an assistant"},
                     {"role": "user", "content": "Hi"},
                 ],
-                "model": "grok-2-latest",
+                "model": self.model_id,
             }
         )
 
@@ -70,16 +71,7 @@ class TestAPIIntegration(unittest.TestCase):
         pass  # NOTE: This endpoint does not work for request specified in xAI API docs (https://api.x.ai/docs/)
 
     def test_v1_completions(self):
-        # Arrange
-        sample_request = schemas.SampleRequest(
-            **{"prompt": "1, 2, 3, 4, ", "model": "grok-2-latest", "max_tokens": 3}
-        )
-
-        # Act
-        sample_response = self.grok.completions(sample_request)
-
-        # Assert
-        self.assertIsInstance(sample_response, schemas.SampleResponse)
+        pass  # NOTE: The available reasoning models do not support raw sampling
 
     def test_v1_embedding_model(self):
         pass  # NOTE: No embedding models available to currently test against
@@ -108,7 +100,7 @@ class TestAPIIntegration(unittest.TestCase):
         # Arrange
         message_request = schemas.MessageRequest(
             **{
-                "model": "grok-2-latest",
+                "model": self.model_id,
                 "max_tokens": 32,
                 "messages": [{"role": "user", "content": "Hello, world"}],
             }
@@ -122,7 +114,7 @@ class TestAPIIntegration(unittest.TestCase):
 
     def test_v1_model(self):
         # Act
-        model = self.grok.model("grok-2")
+        model = self.grok.model(self.model_id)
 
         # Assert
         self.assertIsInstance(model, schemas.Model)

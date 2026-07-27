@@ -9,7 +9,7 @@ class APIKey(pydantic.BaseModel):
     api_key_blocked: bool
     api_key_disabled: bool
     api_key_id: str
-    create_time: datetime.datetime
+    create_time: typing.Union[datetime.datetime, typing.Literal[""]]
     modified_by: str
     modify_time: typing.Union[datetime.datetime, typing.Literal[""]]
     name: str

@@ -56,3 +56,38 @@ from xai_grok.schemas.tool_choice import ToolChoice
 from xai_grok.schemas.tool_function import ToolFunction
 from xai_grok.schemas.top_logprob import TopLogprob
 from xai_grok.schemas.usage import Usage
+from xai_grok.schemas.account import GetMeResponse
+from xai_grok.schemas.documents import SearchRequest, SearchResponse
+from xai_grok.schemas.files import (
+    CreatePublicUrlRequest,
+    CreatePublicUrlResponse,
+    DeleteFileResponse,
+    File,
+    ListFilesResponse,
+    RevokePublicUrlResponse,
+)
+from xai_grok.schemas.images import (
+    EditImageRequest,
+    GeneratedImageResponse,
+    GenerateImageRequest,
+    ImageGenerationModel,
+    ImageGenerationModels,
+)
+from xai_grok.schemas.responses import (
+    CompactRequest,
+    CompactResponse,
+    DeleteStoredCompletionResponse,
+    ListInputItemsResponse,
+    ModelRequest,
+    ModelResponse,
+)
+from xai_grok.schemas.skills import DeletedSkill, Skill, SkillList
+from xai_grok.schemas.videos import (
+    EditVideoRequest,
+    ExtendVideoRequest,
+    GenerateVideoRequest,
+    StartDeferredResponse,
+    VideoGenerationModel,
+    VideoGenerationModels,
+    VideoResponse,
+)
