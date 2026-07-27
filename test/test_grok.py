@@ -776,3 +776,121 @@ class TestGrok(unittest.TestCase):
             self.grok.messages(
                 schemas.MessageRequest(max_tokens=0, messages=[], model="grok-beta")
             )
+
+    def test_current_swagger_operations_are_exposed(self):
+        expected_methods = {
+            "api_key",
+            "chat_completions",
+            "deferred_chat_completion",
+            "complete",
+            "completions",
+            "search_documents",
+            "embedding_models",
+            "embedding_model",
+            "embeddings",
+            "files",
+            "upload_file",
+            "file",
+            "delete_file",
+            "file_content",
+            "create_file_public_url",
+            "revoke_file_public_url",
+            "image_generation_models",
+            "image_generation_model",
+            "edit_image",
+            "generate_image",
+            "language_models",
+            "language_model",
+            "me",
+            "messages",
+            "models",
+            "model",
+            "responses",
+            "compact_response",
+            "stored_response",
+            "delete_stored_response",
+            "response_input_items",
+            "skills",
+            "upload_skill",
+            "skill",
+            "delete_skill",
+            "skill_content",
+            "tokenize_text",
+            "video_generation_models",
+            "video_generation_model",
+            "edit_video",
+            "extend_video",
+            "generate_video",
+            "deferred_video",
+        }
+        self.assertTrue(expected_methods.issubset(set(dir(Grok))))
+
+    def test_v1_files_uses_documented_query_parameters(self):
+        response = test_utils.MockResponse({"data": []})
+        self.mock_requests.get = mock.Mock(spec_set=[], return_value=response)
+
+        self.grok.files(limit=10, order="desc")
+
+        self.mock_requests.get.assert_called_once_with(
+            "https://api.x.ai/v1/files",
+            headers={
+                "Authorization": "Bearer xai-sample-api-key",
+                "Content-Type": "application/json",
+            },
+            params={"limit": 10, "order": "desc"},
+        )
+
+    def test_v1_upload_file_uses_multipart_request(self):
+        response_data = {
+            "bytes": 4,
+            "created_at": 1,
+            "filename": "test.txt",
+            "id": "file-id",
+            "object": "file",
+        }
+        self.mock_requests.post = mock.Mock(
+            spec_set=[], return_value=test_utils.MockResponse(response_data)
+        )
+
+        self.grok.upload_file("test.txt", b"test", purpose="assistants")
+
+        self.mock_requests.post.assert_called_once_with(
+            "https://api.x.ai/v1/files",
+            headers={"Authorization": "Bearer xai-sample-api-key"},
+            json=None,
+            data={"purpose": "assistants"},
+            files={"file": ("test.txt", b"test")},
+        )
+
+    def test_v1_delete_file_uses_delete(self):
+        response = test_utils.MockResponse(
+            {"id": "file-id", "deleted": True, "object": "file"}
+        )
+        self.mock_requests.delete = mock.Mock(spec_set=[], return_value=response)
+
+        result = self.grok.delete_file("file-id")
+
+        self.assertTrue(result.deleted)
+        self.mock_requests.delete.assert_called_once()
+
+    def test_v1_file_content_returns_binary_content(self):
+        response = test_utils.MockResponse({}, content=b"file contents")
+        self.mock_requests.get = mock.Mock(spec_set=[], return_value=response)
+
+        result = self.grok.file_content("file-id")
+
+        self.assertEqual(b"file contents", result)
+
+    def test_v1_generate_video_uses_documented_endpoint(self):
+        response = test_utils.MockResponse({"request_id": "request-id"})
+        self.mock_requests.post = mock.Mock(spec_set=[], return_value=response)
+
+        result = self.grok.generate_video(
+            schemas.GenerateVideoRequest(prompt="A rocket launch")
+        )
+
+        self.assertEqual("request-id", result.request_id)
+        self.assertEqual(
+            "https://api.x.ai/v1/videos/generations",
+            self.mock_requests.post.call_args.args[0],
+        )
